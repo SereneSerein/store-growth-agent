@@ -1,0 +1,15 @@
+# 主办方资料不公开
+data_raw/
+data/
+# 密钥
+.env
+*.key
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+logs/
+.pytest_cache/
+# 系统
+Claude Setup.exe

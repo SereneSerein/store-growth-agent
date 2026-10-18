@@ -1,0 +1,47 @@
+{
+  "_说明": "场景卡 = 客户线索 + 对应 P8 行业场景目录。clue 是门店收到的一句话线索,可在界面里直接改写。",
+  "scenes": [
+    {
+      "name": "零售门店顾客",
+      "scene_dir": "零售门店顾客",
+      "channel": "到店咨询",
+      "clue": "我在商场开服装店,想换台电脑记账、看会员报表,还想自己剪点短视频发抖音,每天要带回家,预算一万左右。",
+      "default_product": "HUAWEI MateBook Pro S"
+    },
+    {
+      "name": "高校学生",
+      "scene_dir": "高校学生",
+      "channel": "小红书私信",
+      "clue": "下半年要上大三,要写论文、跑一点Python、做答辩PPT,宿舍书桌很小,每天背去教室,预算八千以内。",
+      "default_product": "HUAWEI MateBook 14"
+    },
+    {
+      "name": "自由职业者",
+      "scene_dir": "自由职业者",
+      "channel": "微信朋友圈留言",
+      "clue": "我做自由撰稿加线上会议,经常在咖啡馆和客户那儿办公,怕电池不够、怕接投影没接口,想要轻一点的。",
+      "default_product": "HUAWEI MateBook Pro S"
+    },
+    {
+      "name": "企业高管",
+      "scene_dir": "企业高管",
+      "channel": "老客户转介绍",
+      "clue": "经常出差汇报,最担心在客户办公室投屏出问题,还有屏幕的隐私,旁边人不要看到我的数据,预算不太敏感。",
+      "default_product": "HUAWEI MateBook Pro S"
+    },
+    {
+      "name": "销售团队",
+      "scene_dir": "销售团队",
+      "channel": "抖音评论区",
+      "clue": "我们公司十个业务员要统一配电脑,主要做报价单、客户演示和视频会议,想先买一台试用再批量。",
+      "default_product": "HUAWEI MateBook 14"
+    },
+    {
+      "name": "视频制作",
+      "scene_dir": "视频制作",
+      "channel": "B站私信",
+      "clue": "平时剪Vlog和接商单,用的是剪辑软件,想要屏幕好一点的本子,外出拍完能直接在咖啡馆粗剪,预算三万以内。",
+      "default_product": "HUAWEI MateBook Fold 非凡大师"
+    }
+  ]
+}
