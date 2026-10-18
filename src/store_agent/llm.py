@@ -32,8 +32,19 @@ def _load_dotenv() -> None:
 _load_dotenv()
 
 
+_tripped_until = 0.0  # 熔断:连续失败后一小段时间内直接走兜底,避免每步都等超时
+COOLDOWN = 60.0
+
+
 def available() -> bool:
+    if time.time() < _tripped_until:
+        return False
     return bool(os.environ.get("LLM_API_KEY")) and os.environ.get("FORCE_OFFLINE") != "1"
+
+
+def reset_breaker() -> None:
+    global _tripped_until
+    _tripped_until = 0.0
 
 
 def chat(system: str, user: str, temperature: float = 0.4, retries: int = 1) -> str:
@@ -67,4 +78,6 @@ def chat(system: str, user: str, temperature: float = 0.4, retries: int = 1) -> 
             last = e
             if attempt < retries:
                 time.sleep(1.0)
-    raise LLMUnavailable(f"模型调用失败: {type(last).__name__}: {last}")
+    global _tripped_until
+    _tripped_until = time.time() + COOLDOWN
+    raise LLMUnavailable(f"模型调用失败: {type(last).__name__}: {str(last)[:120]}")
