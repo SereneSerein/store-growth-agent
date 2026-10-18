@@ -1,15 +1,15 @@
 @echo off
-chcp 65001 >nul
 cd /d "%~dp0"
 set NO_PROXY=127.0.0.1,localhost
 set no_proxy=127.0.0.1,localhost
-if not exist .venv (
-  echo 首次运行,创建虚拟环境并安装依赖...
+set PYTHONIOENCODING=utf-8
+if not exist .venv\Scripts\python.exe (
+  echo First run: creating venv and installing packages, please wait...
   python -m venv .venv
   .venv\Scripts\python -m pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 )
-echo 启动中,稍后请在浏览器打开 http://127.0.0.1:7860
+echo Starting... open http://127.0.0.1:7860 in your browser
 .venv\Scripts\python app.py
 echo.
-echo 程序已退出。如有报错请截图。
+echo Program exited. If there is an error above, take a screenshot.
 pause
