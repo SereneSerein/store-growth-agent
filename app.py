@@ -6,6 +6,12 @@ import re
 import sys
 from pathlib import Path
 
+import os
+
+# 本机地址不走系统代理,否则 Gradio 启动自检会被代理拦成 502 而闪退
+for _k in ("NO_PROXY", "no_proxy"):
+    os.environ[_k] = ",".join(filter(None, [os.environ.get(_k, ""), "127.0.0.1", "localhost", "::1"]))
+
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
 
