@@ -13,3 +13,8 @@ logs/
 .pytest_cache/
 # 系统
 Claude Setup.exe
+
+# 临时/第三方下载
+vendor_dl/
+.tmp_pdf/
+.tmp_*/
