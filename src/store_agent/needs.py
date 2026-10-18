@@ -20,7 +20,8 @@ TAG_KEYWORDS: dict[str, tuple[str, ...]] = {
     "会议": ("会议", "视频会议", "汇报", "演示"),
     "协同": ("手机", "平板", "协同", "传文件"),
     "批量采购": ("批量", "十个", "统一配", "团队", "公司"),
-    "预算敏感": ("预算有限", "便宜", "性价比", "学生"),
+    "预算敏感": ("预算有限", "便宜", "性价比"),
+    "预算不敏感": ("预算不太敏感", "预算不敏感", "不差钱", "预算充足", "预算不限"),
     "手写": ("手写", "笔记", "画", "批注"),
 }
 
@@ -72,15 +73,18 @@ class Signals:
     budget: int | None = None
     budget_is_cap: bool = False
     evidence: dict[str, str] = field(default_factory=dict)  # 标签 -> 客户原话片段
+    persona: str = ""  # 场景卡配置的人群描述,为空时由标签推断
 
 
 def _snippet(text: str, kw: str) -> str:
+    """取包含关键词的那一小句(以逗号/句号分隔),避免从半句截断。"""
     i = text.find(kw)
     if i < 0:
         return kw
-    a = max(0, i - 8)
-    b = min(len(text), i + len(kw) + 10)
-    return text[a:b].strip("，。,. ")
+    start = max(text.rfind(c, 0, i) for c in "，,。；;") + 1
+    ends = [e for e in (text.find(c, i) for c in "，,。；;") if e >= 0]
+    clause = text[start : min(ends) if ends else len(text)].strip()
+    return re.sub(r"^(还有|以及|而且|并且|另外|同时|就是|还要|还想|和)", "", clause)
 
 
 def extract(clue: str) -> Signals:

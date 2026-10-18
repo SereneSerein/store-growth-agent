@@ -17,7 +17,20 @@ from .knowledge import load_scene
 from .needs import Recommendation, Signals, extract, recommend
 from .pricing import Quote, fmt, quote, render_quote
 
-PROMPTS = Path(__file__).resolve().parents[2] / "prompts"
+ROOT = Path(__file__).resolve().parents[2]
+PROMPTS = ROOT / "prompts"
+
+
+def _persona_for(scene: str | None) -> str:
+    """从 config/scenes.json 取场景卡配置的人群描述;自定义线索时返回空。"""
+    if not scene:
+        return ""
+    import json
+
+    for sc in json.loads((ROOT / "config" / "scenes.json").read_text(encoding="utf-8"))["scenes"]:
+        if sc.get("scene_dir") == scene:
+            return sc.get("persona", "")
+    return ""
 
 
 @dataclass
@@ -120,6 +133,7 @@ def _run(res, clue, channel, product, scene, memory, storage, screen, accessorie
     t_all = time.time()
     # 1 信号与事实 ------------------------------------------------
     sig: Signals = extract(clue)
+    sig.persona = _persona_for(scene)
     fp: FactPack = build_facts(product)
     scene_profile = ""
     if scene:

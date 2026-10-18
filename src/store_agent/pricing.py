@@ -191,6 +191,17 @@ def accessory_names() -> list[str]:
     return sorted(k for k, a in accessory_catalog().items() if a.standalone or a.bundle)
 
 
+def _spec_conflict(product: str, sku: Sku) -> str:
+    """价格快照里的内存/存储档位,是否在产品事实的规格里出现。对不上就提示人工确认,不替资料判断对错。"""
+    from .knowledge import load_product
+
+    facts = re.sub(r"\s+", "", load_product(product).facts_md.upper())
+    miss = [x for x in (sku.memory, sku.storage) if x.upper() not in facts]
+    if miss:
+        return f"产品事实与价格快照不一致:价格快照有 {'、'.join(miss)} 这一档,但产品事实规格里没有,请人工确认后再对外报价"
+    return ""
+
+
 def quote(
     product: str,
     memory: str = "",
@@ -242,6 +253,10 @@ def quote(
     if sku.stock:
         q.warnings.append(f"库存/交付状态(核验时点):{sku.stock}")
     q.gifts = _gifts(sku.condition)
+    conflict = _spec_conflict(product, sku)
+    if conflict:
+        q.warnings.insert(0, conflict)
+        q.trace.append("资料冲突: " + conflict)
 
     note = _coupon_note(product)
     if note:
