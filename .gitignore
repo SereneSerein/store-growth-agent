@@ -1,5 +1,5 @@
-# 主办方资料不公开
-data_raw/
+# 主办方资料已确认可公开,data_raw/ 入库;赛题手册 PDF 不在确认范围内,不入库
+data_raw/*.pdf
 data/
 # 密钥
 .env
@@ -18,3 +18,6 @@ Claude Setup.exe
 vendor_dl/
 .tmp_pdf/
 .tmp_*/
+
+# 说明书含运行结果摘录,不入库
+*.docx
