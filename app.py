@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import gradio as gr  # noqa: E402
 
 from store_agent import llm, pipeline  # noqa: E402
-from store_agent.knowledge import product_names  # noqa: E402
+from store_agent.knowledge import print_data_report, product_names  # noqa: E402
 from store_agent.pricing import accessory_names, sku_labels  # noqa: E402
 
 SCENES = json.loads((ROOT / "config" / "scenes.json").read_text(encoding="utf-8"))["scenes"]
@@ -108,4 +108,11 @@ def build_ui() -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    build_ui().launch(server_name="127.0.0.1", server_port=7860, theme=gr.themes.Soft())
+    # 控制台编码不是 UTF-8(如中文 Windows 的 GBK)时,无法显示的字符用 ? 代替,避免打印自检时崩溃
+    for _s in (sys.stdout, sys.stderr):
+        if hasattr(_s, "reconfigure"):
+            _s.reconfigure(errors="replace")
+    print_data_report()
+    build_ui().launch(
+        server_name="127.0.0.1", server_port=int(os.environ.get("APP_PORT", "7860")), theme=gr.themes.Soft()
+    )

@@ -220,6 +220,11 @@ def quote(
 
     skus = skus_for(product)
     q.trace.append(f"L1 型号={product},候选 SKU {len(skus)} 个")
+    if not skus and not load_prices():
+        q.status = "no_price"
+        q.message = "价格快照数据缺失(未找到官方价格快照.csv),无法报价。请确认 data_raw 资料目录完整后重启程序。"
+        q.trace.append("价格数据为空 -> 拒绝报价")
+        return q
     if not skus:
         q.status = "no_price"
         q.message = (

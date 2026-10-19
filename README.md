@@ -7,7 +7,19 @@
 3. **报价与方案**:四级价格组合(纯代码计算)+ 方案卡 + 3 分钟演示脚本
 4. **1/3/7 天跟进**:下一步话术、时机、异议应对
 
-## 快速启动
+## 快速开始
+
+```
+git clone https://github.com/SereneSerein/store-growth-agent.git
+cd store-growth-agent
+pip install -r requirements.txt
+python app.py
+# 浏览器打开 http://127.0.0.1:7860
+```
+
+从 GitHub 下载 ZIP 的话,解压出来的文件夹叫 `store-growth-agent-main`,`cd` 进那个文件夹即可。
+
+Windows 也可以直接双击 `start.bat`,首次会自动建虚拟环境并安装依赖:
 
 ```
 双击 start.bat        # 首次会自动建虚拟环境并安装依赖
@@ -21,9 +33,11 @@
 复制 `.env.example` 为 `.env`,填写 `LLM_API_KEY`、`LLM_BASE_URL`、`LLM_MODEL`(OpenAI 兼容接口)。
 `.env` 已在 `.gitignore`,**不要提交密钥**。
 
-## 产品资料(不随仓库发布)
+## 产品资料
 
-主办方资料不公开,仓库里没有。运行需要把资料包放到 `data_raw/` 下(或设置环境变量 `KB_ROOT` 指向资料包根目录,即包含 `P1-产品参数库` 的那一层)。
+资料放在仓库的 `data_raw/` 下,克隆后即可使用。也可以设置环境变量 `KB_ROOT` 指向别处的资料包根目录(即包含 `P1-产品参数库` 的那一层)。
+
+启动时控制台会打印自检结果,显示各类资料文件是否存在及数量。资料缺失时程序不会崩溃,界面照常打开,但报价和事实依据会是空的。
 
 ## 设计要点
 
